@@ -7,20 +7,29 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "update-types": "supabase gen types typescript --project-id \"eawdakwyunufucpuuoct\" --schema public > src/types/DatabaseDefinitions.ts",
+    "prepare:dev": "yarn update-types && yarn prisma db pull && yarn prisma generate && yarn prisma-case-format --file prisma/schema.prisma  && yarn prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^4.11.0",
+    "@supabase/supabase-js": "^2.21.0",
     "@t3-oss/env-nextjs": "^0.2.1",
     "@tanstack/react-query": "^4.28.0",
     "@trpc/client": "^10.18.0",
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
+    "class-variance-authority": "^0.6.0",
+    "clsx": "^1.2.1",
+    "lucide-react": "^0.192.0",
     "next": "^13.2.4",
+    "prisma-case-format": "^1.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "superjson": "1.12.2",
+    "tailwind-merge": "^1.12.0",
+    "tailwindcss-animate": "^1.0.5",
     "zod": "^3.21.4"
   },
   "devDependencies": {
