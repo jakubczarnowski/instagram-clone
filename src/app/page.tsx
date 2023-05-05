@@ -1,3 +1,3 @@
 "use client";
 
-export { Feed as default } from "~/pageComponents/Feed.page";
+export { Feed as default } from "~/pageComponents/Feed/Feed.page";

@@ -1,1 +1,1 @@
-export { Login as default } from "~/pageComponents/Login.page";
+export { Login as default } from "~/pageComponents/Login/Login.page";

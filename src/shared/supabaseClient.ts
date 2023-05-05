@@ -5,13 +5,7 @@ import { type DatabaseDefinitions } from "~/types/database";
 export const getServiceSupabase = () =>
   createClient<DatabaseDefinitions>(
     env.NEXT_PUBLIC_SUPABASE_URL,
-    env.SUPABASE_SERVICE_KEY,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    }
+    env.SUPABASE_SERVICE_KEY
   );
 
 export const clientSupabase = createClient<DatabaseDefinitions>(
