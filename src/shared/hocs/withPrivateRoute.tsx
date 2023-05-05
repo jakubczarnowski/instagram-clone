@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { LoadingScreen } from "~/components/Spinner";
 import { useUser } from "~/providers/AuthProvider";
 
-const withPrivateRoute = <T extends typeof Object>(
+const withPrivateRoute = <T extends object>(
   WrappedComponent: React.FunctionComponent<T>
 ) => {
   const ComponentWithPrivateRoute = (props: T) => {
