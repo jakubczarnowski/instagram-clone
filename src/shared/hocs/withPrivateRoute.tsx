@@ -11,7 +11,6 @@ const withPrivateRoute = <T extends object>(
   const ComponentWithPrivateRoute = (props: T) => {
     const router = useRouter();
     const { user, isLoading } = useUser();
-    console.log(user, isLoading);
     useEffect(() => {
       if (!user && !isLoading) {
         router.push("/login");

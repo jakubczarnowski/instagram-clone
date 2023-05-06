@@ -20,7 +20,11 @@ export const OAuthButtonGroup = () => {
   return (
     <div className="flex flex-col gap-4">
       {providers.map(({ name, icon: Icon, provider }) => (
-        <Button key={provider} onClick={() => handleLogin(provider)}>
+        <Button
+          variant={"outline"}
+          key={provider}
+          onClick={() => handleLogin(provider)}
+        >
           <Icon className="mx-3 h-5 w-5" />
           Sign in with {name}
         </Button>

@@ -1,10 +1,9 @@
 import React from "react";
 import withPrivateRoute from "~/shared/hocs/withPrivateRoute";
-
 const FeedPage = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <p>teststs</p>
+    <main className="flex h-full grow items-center justify-center">
+      FEEEEEEEEEED
     </main>
   );
 };

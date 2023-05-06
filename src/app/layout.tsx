@@ -12,7 +12,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
           <meta name="theme-color" content="#000000" />
         </head>
         <body>
-          <div className="flex min-h-screen w-full">
+          <div className="flex h-full min-h-screen w-full flex-col items-center">
             <AuthProvider>{children}</AuthProvider>
           </div>
         </body>
