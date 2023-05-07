@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const authRouter = createTRPCRouter({
   deleteAccount: publicProcedure
@@ -10,4 +14,11 @@ export const authRouter = createTRPCRouter({
         greeting: `Hello ${input.text}`,
       };
     }),
+  getProfile: privateProcedure.query(({ ctx }) => {
+    return ctx.prisma.profiles.findFirst({
+      where: {
+        id: ctx.user.id,
+      },
+    });
+  }),
 });

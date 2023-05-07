@@ -10,9 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
       <div className="flex h-full w-full grow flex-col md:border-l">
         {children}
       </div>
-      <div className="w-[80px] lg:w-[250px]">
-        <Sidebar />
-      </div>
+      <Sidebar />
     </div>
   </>
 );
