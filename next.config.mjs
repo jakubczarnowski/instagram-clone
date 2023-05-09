@@ -11,7 +11,9 @@ const config = {
     domains: [
       "eawdakwyunufucpuuoct.supabase.co",
       "localhost",
+      "picsum.photos",
       "avatars.githubusercontent.com",
+      "lh3.googleusercontent.com",
     ],
   },
   /**

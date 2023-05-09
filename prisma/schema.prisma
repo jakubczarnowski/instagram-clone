@@ -278,16 +278,18 @@ model Users {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Profiles {
-  id           String         @id @db.Uuid
-  updatedAt    DateTime?      @map("updated_at") @db.Timestamptz(6)
-  username     String?        @unique
-  avatarUrl    String?        @map("avatar_url")
-  bio          String?
-  commentLikes CommentLikes[]
-  comments     Comments[]
-  postLikes    PostLikes[]
-  posts        Posts[]
-  users        Users          @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id                                         String         @id @db.Uuid
+  updatedAt                                  DateTime?      @map("updated_at") @db.Timestamptz(6)
+  username                                   String?        @unique
+  avatarUrl                                  String?        @map("avatar_url")
+  bio                                        String?
+  commentLikes                               CommentLikes[]
+  comments                                   Comments[]
+  postLikes                                  PostLikes[]
+  posts                                      Posts[]
+  users                                      Users          @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  userFollowsUserFollowsFollowerIdToprofiles UserFollows[]  @relation("user_follows_follower_idToprofiles")
+  userFollowsUserFollowsUserIdToprofiles     UserFollows[]  @relation("user_follows_user_idToprofiles")
 
   @@map("profiles")
   @@schema("public")
@@ -296,25 +298,26 @@ model Profiles {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model CommentLikes {
   userId    String   @map("user_id") @db.Uuid
-  postId    BigInt   @map("post_id")
+  commentId String   @map("comment_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  posts     Posts    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  comments  Comments @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   profiles  Profiles @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@id([userId, postId])
+  @@id([userId, commentId])
   @@map("comment_likes")
   @@schema("public")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Comments {
-  id        BigInt   @id @default(autoincrement())
-  userId    String   @map("user_id") @db.Uuid
-  postId    BigInt   @map("post_id")
-  content   String
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  posts     Posts    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  profiles  Profiles @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String         @map("user_id") @db.Uuid
+  postId       String         @map("post_id") @db.Uuid
+  content      String
+  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  commentLikes CommentLikes[]
+  posts        Posts          @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  profiles     Profiles       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@map("comments")
   @@schema("public")
@@ -323,7 +326,7 @@ model Comments {
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model PostLikes {
   userId    String   @map("user_id") @db.Uuid
-  postId    BigInt   @map("post_id")
+  postId    String   @map("post_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   posts     Posts    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   profiles  Profiles @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
@@ -335,17 +338,28 @@ model PostLikes {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model Posts {
-  id           BigInt         @id @default(autoincrement())
-  title        String
-  imageUrl     String         @map("image_url")
-  userId       String         @map("user_id") @db.Uuid
-  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
-  commentLikes CommentLikes[]
-  comments     Comments[]
-  postLikes    PostLikes[]
-  profiles     Profiles       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title     String
+  imageUrl  String      @map("image_url")
+  userId    String      @map("user_id") @db.Uuid
+  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  comments  Comments[]
+  postLikes PostLikes[]
+  profiles  Profiles    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("posts")
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model UserFollows {
+  id                                      BigInt   @id @default(autoincrement())
+  userId                                  String   @map("user_id") @db.Uuid
+  followerId                              String   @map("follower_id") @db.Uuid
+  profilesUserFollowsFollowerIdToprofiles Profiles @relation("user_follows_follower_idToprofiles", fields: [followerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  profilesUserFollowsUserIdToprofiles     Profiles @relation("user_follows_user_idToprofiles", fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@map("user_follows")
   @@schema("public")
 }
 

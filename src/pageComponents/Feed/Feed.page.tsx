@@ -1,4 +1,55 @@
+"use client";
 import React from "react";
+import { useInView } from "react-intersection-observer";
+import { PostCard } from "~/components/PostCard/PostCard";
+import { Spinner } from "~/components/Spinner";
+import { api } from "~/utils/api";
 export const Feed = () => {
-  return <main className="flex h-full grow items-center justify-center"></main>;
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    api.posts.getPopularPostsInfinite.useInfiniteQuery(
+      {},
+      { getNextPageParam: (lastPage) => lastPage[lastPage.length - 1]?.id }
+    );
+  const { ref } = useInView({
+    onChange: (inView) => {
+      if (inView && hasNextPage) {
+        void fetchNextPage();
+      }
+    },
+  });
+  return (
+    <section className="flex h-full grow items-center justify-center pt-10">
+      <div className="flex h-full w-full flex-col items-center gap-4">
+        {data?.pages.map((page) =>
+          page.map((post) => (
+            <PostCard
+              key={post.id}
+              id={post.id}
+              avatarUrl={post.profiles.avatarUrl || ""}
+              commentsAmount={post.comments.length}
+              createdAt={post.createdAt.toString()}
+              isLiked={post.isLiked}
+              likesAmount={post.likesCount}
+              postImageUrl={post.imageUrl}
+              title={post.title}
+              userId={post.profiles.id}
+              username={post.profiles.username || ""}
+              isFollowed={post.followingUser}
+            />
+          ))
+        )}
+        {isFetchingNextPage && (
+          <div className="flex items-center justify-center">
+            <Spinner />
+          </div>
+        )}
+        <div style={{ visibility: "hidden" }} ref={ref} />
+        {!hasNextPage && (
+          <p className="mb-5 text-sm text-gray-500">
+            That&apos;s it! No more posts to load
+          </p>
+        )}
+      </div>
+    </section>
+  );
 };

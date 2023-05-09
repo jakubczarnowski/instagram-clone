@@ -7,9 +7,7 @@ import {
   AiOutlineHome,
   AiOutlineInstagram,
   AiOutlinePlusCircle,
-  AiOutlineSearch,
 } from "react-icons/ai";
-import { BsSend } from "react-icons/bs";
 import { cn } from "~/utils/cn";
 import { usePathname, useRouter } from "next/navigation";
 import { api } from "~/utils/api";
@@ -27,18 +25,6 @@ export const Sidebar = () => {
       text: "Home",
       selected: pathname === "/",
       onClick: () => router.push("/"),
-    },
-    {
-      icon: AiOutlineSearch,
-      text: "Search",
-      selected: pathname === "/search",
-      onClick: () => router.push("/search"),
-    },
-    {
-      icon: BsSend,
-      text: "Messages",
-      selected: pathname === "/messages",
-      onClick: () => router.push("/messages"),
     },
     {
       icon: AiOutlineHeart,
@@ -68,25 +54,27 @@ export const Sidebar = () => {
     },
   ];
   return (
-    <div className="flex w-full flex-row justify-between px-4 py-4 md:w-[80px] md:flex-col md:justify-normal lg:w-[250px]">
-      <InstagramLogo
-        onClick={() => router.push("/")}
-        width="100px"
-        className="m-3 mb-8 hidden lg:block"
-      />
-      <AiOutlineInstagram
-        size={"25px"}
-        className="m-3 mb-8 hidden md:block lg:hidden"
-      />
-      {sidebarElements.map((element) => (
-        <SidebarElement
-          key={element.text}
-          icon={element.icon}
-          text={element.text}
-          selected={element.selected}
-          onClick={element.onClick}
+    <div className="fixed bottom-0 left-0 flex w-full bg-white md:top-0 md:w-[--sidebarMd]  md:border-r md:p-4 lg:w-[--sidebarLg]">
+      <div className="mx-auto flex w-full max-w-lg flex-row justify-between md:flex-col md:justify-normal">
+        <InstagramLogo
+          onClick={() => router.push("/")}
+          width="100px"
+          className="m-3 mb-8 hidden pt-6 lg:block"
         />
-      ))}
+        <AiOutlineInstagram
+          size={"24px"}
+          className="m-3 mb-8 hidden md:block lg:hidden"
+        />
+        {sidebarElements.map((element) => (
+          <SidebarElement
+            key={element.text}
+            icon={element.icon}
+            text={element.text}
+            selected={element.selected}
+            onClick={element.onClick}
+          />
+        ))}
+      </div>
     </div>
   );
 };
@@ -104,12 +92,12 @@ const SidebarElement = ({
 }) => {
   return (
     <button onClick={onClick}>
-      <div className="flex flex-row items-center gap-3 p-3">
-        <Icon size={"25px"} />
+      <div className="my-1 flex flex-row items-center gap-3 rounded-md p-3 hover:bg-gray-50">
+        <Icon size={"24px"} />
         <h2
           className={cn(
-            "hidden text-lg lg:block",
-            selected ? "font-bold" : "font-medium"
+            "hidden lg:block",
+            selected ? "font-bold" : "font-normal"
           )}
         >
           {text}
