@@ -1,12 +1,11 @@
 import { formatDistance } from "date-fns";
 import Image from "next/image";
 import React from "react";
-import { BsSend, BsThreeDots } from "react-icons/bs";
-import { FaRegComment } from "react-icons/fa";
-import { LikeButton } from "./molecules/LikeButton";
 import { CommentInput } from "./molecules/CommentInput";
 import { api } from "~/utils/api";
 import { PostIcons } from "./organisms/PostIcons";
+import Link from "next/link";
+import { BsThreeDots } from "react-icons/bs";
 
 type Props = {
   id: string;
@@ -84,9 +83,12 @@ export const PostCard = ({
           <h2 className="text-sm font-semibold">{username}</h2>
           <p className="text-sm">{title}</p>
         </div>
-        <h2 className="cursor-pointer text-sm text-gray-500">
+        <Link
+          href={`/post/${id}`}
+          className="cursor-pointer text-sm text-gray-500"
+        >
           See all comments: {commentsAmount}
-        </h2>
+        </Link>
         <CommentInput postId={id} />
       </div>
       <hr className="h-1 w-full" />
