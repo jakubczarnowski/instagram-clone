@@ -19,12 +19,7 @@ export const Post = ({ id, className }: Props) => {
   if (error) return <p>There has been an error</p>;
   if (isLoading || !data) return <LoadingScreen />;
   return (
-    <div
-      className={cn(
-        "flex max-h-full w-full grow flex-col bg-white md:flex-row",
-        className
-      )}
-    >
+    <div className={cn("flex w-full flex-col bg-white md:flex-row", className)}>
       <div className="relative aspect-square h-auto w-full grow">
         <Image
           fill

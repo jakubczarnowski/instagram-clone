@@ -10,8 +10,8 @@ type Props = {
 
 export const PostPage = ({ params: { id } }: Props) => {
   return (
-    <div className="flex h-full grow border border-gray-100 p-10">
-      <Post id={id} />
+    <div className="flex flex-col p-10">
+      <Post className="border border-gray-100" id={id} />
     </div>
   );
 };

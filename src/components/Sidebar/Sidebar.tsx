@@ -12,6 +12,7 @@ import { cn } from "~/utils/cn";
 import { usePathname, useRouter } from "next/navigation";
 import { api } from "~/utils/api";
 import Image from "next/image";
+import { CreatePostModal } from "../CreatePostModal/CreatePostModal";
 
 export const Sidebar = () => {
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
@@ -54,28 +55,34 @@ export const Sidebar = () => {
     },
   ];
   return (
-    <div className="fixed bottom-0 left-0 flex w-full bg-white md:top-0 md:w-[--sidebarMd]  md:border-r md:p-4 lg:w-[--sidebarLg]">
-      <div className="mx-auto flex w-full max-w-lg flex-row justify-between md:flex-col md:justify-normal">
-        <InstagramLogo
-          onClick={() => router.push("/")}
-          width="100px"
-          className="m-3 mb-8 hidden pt-6 lg:block"
-        />
-        <AiOutlineInstagram
-          size={"24px"}
-          className="m-3 mb-8 hidden md:block lg:hidden"
-        />
-        {sidebarElements.map((element) => (
-          <SidebarElement
-            key={element.text}
-            icon={element.icon}
-            text={element.text}
-            selected={element.selected}
-            onClick={element.onClick}
+    <>
+      <div className="fixed bottom-0 left-0 flex w-full bg-white md:top-0 md:w-[--sidebarMd]  md:border-r md:p-4 lg:w-[--sidebarLg]">
+        <div className="mx-auto flex w-full max-w-lg flex-row justify-between md:flex-col md:justify-normal">
+          <InstagramLogo
+            onClick={() => router.push("/")}
+            width="100px"
+            className="m-3 mb-8 hidden cursor-pointer pt-6 lg:block"
           />
-        ))}
+          <AiOutlineInstagram
+            size={"24px"}
+            className="m-3 mb-8 hidden md:block lg:hidden"
+          />
+          {sidebarElements.map((element) => (
+            <SidebarElement
+              key={element.text}
+              icon={element.icon}
+              text={element.text}
+              selected={element.selected}
+              onClick={element.onClick}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+      <CreatePostModal
+        isOpen={createPostModalOpen}
+        handleClose={() => setCreatePostModalOpen(false)}
+      />
+    </>
   );
 };
 

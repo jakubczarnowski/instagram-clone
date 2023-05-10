@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal } from "~/components/Modal/Modal";
+import { InterceptionModal } from "~/components/InterceptionModal/InterceptionModal";
 import { Post } from "~/components/Post/Post";
 
 type Props = {
@@ -10,9 +10,9 @@ type Props = {
 
 const PostModal = (props: Props) => {
   return (
-    <Modal>
+    <InterceptionModal>
       <Post id={props.params.id} />
-    </Modal>
+    </InterceptionModal>
   );
 };
 

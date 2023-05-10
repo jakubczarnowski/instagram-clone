@@ -28,11 +28,14 @@
     "prisma-case-format": "^1.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-icons": "^4.8.0",
     "react-intersection-observer": "^9.4.3",
+    "react-modal": "^3.16.1",
     "superjson": "1.12.2",
     "tailwind-merge": "^1.12.0",
     "tailwindcss-animate": "^1.0.5",
+    "use-file-picker": "^1.6.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {
@@ -41,6 +44,7 @@
     "@types/prettier": "^2.7.2",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/react-modal": "^3.16.0",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "autoprefixer": "^10.4.14",
