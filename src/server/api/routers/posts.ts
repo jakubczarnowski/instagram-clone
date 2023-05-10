@@ -104,4 +104,83 @@ export const postsRouter = createTRPCRouter({
         },
       });
     }),
+  getPost: privateProcedure
+    .input(z.object({ postId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const data = await ctx.prisma.posts.findFirstOrThrow({
+        where: {
+          id: input.postId,
+        },
+        include: {
+          postLikes: {
+            where: {
+              userId: ctx.user.id,
+            },
+          },
+          comments: {
+            include: {
+              profiles: true,
+              commentLikes: {
+                where: {
+                  userId: ctx.user.id,
+                },
+              },
+              _count: {
+                select: {
+                  commentLikes: true,
+                },
+              },
+            },
+          },
+          profiles: {
+            include: {
+              userFollowsUserFollowsFollowerIdToprofiles: {
+                where: {
+                  userId: ctx.user.id,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              postLikes: true,
+            },
+          },
+        },
+      });
+      const parsedData = {
+        ...data,
+        isLiked: !!data.postLikes.length,
+        likesCount: data._count.postLikes,
+        followingUser:
+          !!data.profiles.userFollowsUserFollowsFollowerIdToprofiles.length,
+        comments: data.comments.map((val) => ({
+          ...val,
+          isLiked: val.commentLikes.length > 0,
+        })),
+      };
+      return parsedData;
+    }),
+  likeComment: privateProcedure
+    .input(z.object({ commentId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.commentLikes.create({
+        data: {
+          commentId: input.commentId,
+          userId: ctx.user.id,
+        },
+      });
+    }),
+  unlikeComment: privateProcedure
+    .input(z.object({ commentId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.commentLikes.delete({
+        where: {
+          userId_commentId: {
+            commentId: input.commentId,
+            userId: ctx.user.id,
+          },
+        },
+      });
+    }),
 });

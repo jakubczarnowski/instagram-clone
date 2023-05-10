@@ -1,11 +1,9 @@
-import { formatDistance } from "date-fns";
 import Image from "next/image";
 import React from "react";
 import { CommentInput } from "./molecules/CommentInput";
-import { api } from "~/utils/api";
 import { PostIcons } from "./organisms/PostIcons";
 import Link from "next/link";
-import { BsThreeDots } from "react-icons/bs";
+import { PostHead } from "./molecules/PostHead";
 
 type Props = {
   id: string;
@@ -34,40 +32,16 @@ export const PostCard = ({
   username,
   isFollowed,
 }: Props) => {
-  const { mutate: follow } = api.posts.followUser.useMutation();
   return (
     <div className="flex h-full w-full max-w-[468px] flex-col gap-2">
-      <div className="mb-2 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Image
-            alt={username}
-            src={avatarUrl}
-            width={32}
-            height={32}
-            className="rounded-full"
-          />
-          <h2 className="text-sm font-semibold">{username}</h2>•
-          <p className="text-sm text-gray-500">
-            {formatDistance(new Date(createdAt), new Date(), {
-              addSuffix: true,
-            })}
-          </p>
-          {!isFollowed && (
-            <>
-              •
-              <a
-                onClick={() => follow({ userId })}
-                className=" cursor-pointer text-sm font-bold text-blue-600"
-              >
-                Follow
-              </a>
-            </>
-          )}
-        </div>
-        <button>
-          <BsThreeDots size={"25px"} />
-        </button>
-      </div>
+      <PostHead
+        avatarUrl={avatarUrl}
+        createdAt={createdAt}
+        className="mb-2"
+        isFollowed={isFollowed}
+        userId={userId}
+        username={username}
+      />
       <div className="relative flex h-[584px] w-full max-w-[468px]">
         <Image
           alt={title}

@@ -5,7 +5,7 @@ import { PostCard } from "~/components/PostCard/PostCard";
 import { Spinner } from "~/components/Spinner";
 import { api } from "~/utils/api";
 export const Feed = () => {
-  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage, isLoading } =
     api.posts.getPopularPostsInfinite.useInfiniteQuery(
       {},
       { getNextPageParam: (lastPage) => lastPage[lastPage.length - 1]?.id }
@@ -38,13 +38,14 @@ export const Feed = () => {
             />
           ))
         )}
-        {isFetchingNextPage && (
-          <div className="flex items-center justify-center">
-            <Spinner />
-          </div>
-        )}
+        {isFetchingNextPage ||
+          (isLoading && (
+            <div className="flex items-center justify-center">
+              <Spinner />
+            </div>
+          ))}
         <div style={{ visibility: "hidden" }} ref={ref} />
-        {!hasNextPage && (
+        {hasNextPage === false && (
           <p className="mb-5 text-sm text-gray-500">
             That&apos;s it! No more posts to load
           </p>

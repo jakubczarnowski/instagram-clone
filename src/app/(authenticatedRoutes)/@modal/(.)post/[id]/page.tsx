@@ -4,7 +4,7 @@ import { Post } from "~/pageComponents/Post/Post.page";
 
 type Props = {
   params: {
-    slug: string;
+    id: string;
   };
 };
 
