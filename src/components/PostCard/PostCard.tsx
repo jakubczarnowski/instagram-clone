@@ -42,12 +42,13 @@ export const PostCard = ({
         userId={userId}
         username={username}
       />
-      <div className="relative flex h-[584px] w-full max-w-[468px]">
+      <div className="relative flex h-full w-full">
         <Image
           alt={title}
           src={postImageUrl}
-          fill
-          className="rounded-sm object-fill"
+          height={468}
+          width={468}
+          className="aspect-square rounded-sm object-fill"
         />
       </div>
       <PostIcons postId={id} isLiked={isLiked} />

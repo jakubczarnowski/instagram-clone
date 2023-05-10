@@ -25,7 +25,7 @@ export const Post = ({ id, className }: Props) => {
           fill
           alt="Image"
           src={data?.imageUrl || ""}
-          style={{ objectFit: "fill", aspectRatio: "1/1" }}
+          className="aspect-square object-fill"
         />
       </div>
       <div className="flex min-w-fit max-w-full flex-col items-center justify-between p-3 sm:max-h-[600px] md:max-h-full md:max-w-[500px]">

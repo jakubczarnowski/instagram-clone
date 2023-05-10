@@ -1,7 +1,7 @@
 "use client";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import Modal from "react-modal";
+import { Modal } from "~/components/Modal/Modal";
 
 export function InterceptionModal({ children }: { children: React.ReactNode }) {
   const router = useRouter();
