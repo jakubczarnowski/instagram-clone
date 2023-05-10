@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "~/components/Modal/Modal";
-import { Post } from "~/pageComponents/Post/Post.page";
+import { Post } from "~/components/Post/Post";
 
 type Props = {
   params: {
@@ -9,10 +9,9 @@ type Props = {
 };
 
 const PostModal = (props: Props) => {
-  console.log("xrfheruyvreuihilerd");
   return (
     <Modal>
-      <Post {...props} />
+      <Post id={props.params.id} />
     </Modal>
   );
 };

@@ -75,7 +75,6 @@ export const Comment = ({
         });
       },
     });
-  console.log(isUnlikeLoading, likeLoading);
   const handleLike = () => {
     if (!id) return;
     if (isUnlikeLoading || likeLoading) return;
@@ -90,7 +89,7 @@ export const Comment = ({
       <div className="relative flex items-center">
         <Avatar avatarUrl={avatarUrl} username={username} />
       </div>
-      <div className="flex max-w-[300px] grow flex-col gap-1">
+      <div className="flex max-w-full grow flex-col gap-1 md:max-w-[300px]">
         <div className="flex  items-center gap-1">
           <h2 className="break-all text-sm">
             <span className="mr-1 font-semibold">{username}</span>

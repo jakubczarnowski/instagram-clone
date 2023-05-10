@@ -1,2 +1,2 @@
 "use client";
-export { Post as default } from "~/pageComponents/Post/Post.page";
+export { PostPage as default } from "~/pageComponents/Post/Post.page";
