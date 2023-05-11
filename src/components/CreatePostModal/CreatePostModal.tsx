@@ -18,7 +18,7 @@ type Props = {
 
 const newPostValidationSchema = z.object({
   imageToUpload: z
-    .instanceof(File)
+    .custom<File>()
     .nullable()
     .refine((val) => !!val), // Can be null, but throw on submit
   content: z.string().min(1).max(280),
