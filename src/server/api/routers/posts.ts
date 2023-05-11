@@ -90,7 +90,7 @@ export const postsRouter = createTRPCRouter({
   followUser: privateProcedure
     .input(z.object({ userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const data = ctx.prisma.userFollows.create({
+      return ctx.prisma.userFollows.create({
         data: {
           userId: ctx.user.id,
           followerId: input.userId,
