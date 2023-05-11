@@ -38,12 +38,11 @@ export const Feed = () => {
             />
           ))
         )}
-        {isFetchingNextPage ||
-          (isLoading && (
-            <div className="flex items-center justify-center">
-              <Spinner />
-            </div>
-          ))}
+        {(isFetchingNextPage || isLoading) && (
+          <div className="flex items-center justify-center">
+            <Spinner />
+          </div>
+        )}
         <div style={{ visibility: "hidden" }} ref={ref} />
         {hasNextPage === false && (
           <p className="mb-5 text-sm text-gray-500">
