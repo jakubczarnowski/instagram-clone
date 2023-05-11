@@ -7,6 +7,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
+    "postinstall": "prisma generate",
     "update-types": "supabase gen types typescript --project-id eawdakwyunufucpuuoct --schema public > src/types/database/DatabaseDefinitions.ts",
     "prepare:dev": "yarn update-types && yarn prisma db pull && yarn prisma generate && yarn prisma-case-format --file prisma/schema.prisma  && yarn prisma generate",
     "check-types": "tsc --noEmit"
