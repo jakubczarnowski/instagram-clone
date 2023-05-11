@@ -13,10 +13,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import { CreatePostModal } from "../CreatePostModal/CreatePostModal";
+import { useUser } from "~/providers/AuthProvider";
 
 export const Sidebar = () => {
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
   const { data } = api.auth.getProfile.useQuery();
+  const { user } = useUser();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -51,7 +53,7 @@ export const Sidebar = () => {
       ),
       text: "Profile",
       selected: pathname === "/profile",
-      onClick: () => router.push("/profile"),
+      onClick: () => router.push(`/profile/${user?.id || ""}`),
     },
   ];
   return (
