@@ -7,9 +7,34 @@ import { z } from "zod";
 import { ImageCrop } from "./molecules/ImageCrop";
 import { Modal } from "../Modal/Modal";
 import Image from "next/image";
-import { api } from "~/utils";
+import { api, uploadFileToStorage } from "~/utils";
 import { Avatar } from "../Avatar/Avatar";
 import { Button } from "../ui/button";
+import { useUser } from "~/providers/AuthProvider";
+
+type PostData = z.infer<typeof newPostValidationSchema>;
+
+const useAddPost = () => {
+  const { mutateAsync: updateProject } = api.posts.addPost.useMutation();
+  const { user } = useUser();
+  const mutateAsync = async (data: PostData) => {
+    if (!data.imageToUpload) return;
+    const id = crypto.randomUUID();
+    const { url, error } = await uploadFileToStorage(
+      user?.id || "",
+      id,
+      data.imageToUpload
+    );
+    if (error) return { error };
+    const newProject = await updateProject({
+      content: data.content,
+      imageUrl: url,
+      id,
+    });
+    return { data: newProject };
+  };
+  return { mutateAsync };
+};
 
 type Props = {
   isOpen: boolean;
@@ -17,15 +42,13 @@ type Props = {
 };
 
 const newPostValidationSchema = z.object({
-  imageToUpload: z
-    .custom<File>()
-    .nullable()
-    .refine((val) => !!val), // Can be null, but throw on submit
-  content: z.string().min(1).max(280),
+  imageToUpload: z.custom<File>().nullable(),
+  content: z.string().min(1, "Content is Required").max(280, "Too long"),
 });
 
 export const CreatePostModal = ({ isOpen, handleClose }: Props) => {
   const { data: profile } = api.auth.getProfile.useQuery();
+  const { mutateAsync } = useAddPost();
   const [imageSource, setImageSource] = useState<string | null>(null);
   const [openFileSelector, { plainFiles, clear }] = useFilePicker({
     readAs: "DataURL",
@@ -35,15 +58,15 @@ export const CreatePostModal = ({ isOpen, handleClose }: Props) => {
     maxFileSize: 80,
   });
 
-  const { handleSubmit, formState, setValue, register, watch } = useForm<
-    z.infer<typeof newPostValidationSchema>
-  >({
-    defaultValues: {
-      content: "",
-      imageToUpload: null,
-    },
-    resolver: zodResolver(newPostValidationSchema),
-  });
+  const { handleSubmit, formState, setValue, register, watch } =
+    useForm<PostData>({
+      defaultValues: {
+        content: "",
+        imageToUpload: null,
+      },
+      resolver: zodResolver(newPostValidationSchema),
+      reValidateMode: "onSubmit",
+    });
   const handleCropAccepted = (file: Blob, content: string) => {
     setImageSource(content);
     setValue("imageToUpload", new File([file], "image.png"));
@@ -53,10 +76,14 @@ export const CreatePostModal = ({ isOpen, handleClose }: Props) => {
     setImageSource(null);
     clear();
   };
-  const onSubmit = (data: z.infer<typeof newPostValidationSchema>) => {
+  const onSubmit = async (data: PostData) => {
     console.log(data);
+    await mutateAsync(data);
+    handleClose();
   };
   const fileUploaded = !!watch("imageToUpload");
+  console.log(formState.errors);
+
   if (!isOpen) return null;
   return (
     <>
@@ -118,13 +145,18 @@ export const CreatePostModal = ({ isOpen, handleClose }: Props) => {
                 className="w-full rounded-md p-2  text-start outline-none"
                 {...register("content")}
               />
+              {formState.errors.content && (
+                <span className="text-red-500">
+                  {formState.errors.content.message}
+                </span>
+              )}
               <div className="flex flex-row justify-end gap-2">
                 <Button variant={"outline"} onClick={handleClose}>
                   Cancel
                 </Button>
                 <Button
                   variant={"secondary"}
-                  onClick={void handleSubmit(onSubmit)}
+                  onClick={() => void handleSubmit(onSubmit)()}
                 >
                   Post
                 </Button>

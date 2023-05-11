@@ -16,15 +16,8 @@ export const postsRouter = createTRPCRouter({
     .input(z.object({ cursor: z.string().optional() }))
     .query(async ({ ctx, input }) => {
       const data = await ctx.prisma.posts.findMany({
-        where: {
-          createdAt: {
-            gt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7),
-          },
-        },
         orderBy: {
-          postLikes: {
-            _count: "desc",
-          },
+          createdAt: "desc",
         },
         include: {
           postLikes: {
@@ -97,7 +90,7 @@ export const postsRouter = createTRPCRouter({
   followUser: privateProcedure
     .input(z.object({ userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.userFollows.create({
+      const data = ctx.prisma.userFollows.create({
         data: {
           userId: ctx.user.id,
           followerId: input.userId,
@@ -182,5 +175,70 @@ export const postsRouter = createTRPCRouter({
           },
         },
       });
+    }),
+  addPost: privateProcedure
+    .input(
+      z.object({ content: z.string(), imageUrl: z.string(), id: z.string() })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.posts.create({
+        data: {
+          id: input.id,
+          title: input.content,
+          imageUrl: input.imageUrl,
+          userId: ctx.user.id,
+        },
+      });
+    }),
+  getPostsByFriends: privateProcedure
+    .input(z.object({ cursor: z.string().optional() }))
+    .query(async ({ ctx, input }) => {
+      const data = await ctx.prisma.posts.findMany({
+        where: {
+          profiles: {
+            userFollowsUserFollowsFollowerIdToprofiles: {
+              some: {
+                userId: ctx.user.id,
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          postLikes: {
+            where: {
+              userId: ctx.user.id,
+            },
+          },
+          comments: true,
+          profiles: {
+            include: {
+              userFollowsUserFollowsFollowerIdToprofiles: {
+                where: {
+                  userId: ctx.user.id,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              postLikes: true,
+            },
+          },
+        },
+        skip: input.cursor ? 1 : 0,
+        take: 2,
+        cursor: input.cursor ? { id: input.cursor } : undefined,
+      });
+      const parsedData = data.map((val) => ({
+        ...val,
+        isLiked: val.postLikes.length > 0,
+        likesCount: val._count.postLikes,
+        followingUser:
+          val.profiles.userFollowsUserFollowsFollowerIdToprofiles.length > 0,
+      }));
+      return parsedData;
     }),
 });

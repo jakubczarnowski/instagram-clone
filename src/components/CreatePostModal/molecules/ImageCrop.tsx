@@ -21,7 +21,6 @@ export const ImageCrop = ({
       return;
     }
     const content = cropperRef.current.getImage().toDataURL();
-    console.log(content);
     cropperRef.current.getImage().toBlob((blob) => {
       if (blob) {
         onCropAccepted(blob, content);
