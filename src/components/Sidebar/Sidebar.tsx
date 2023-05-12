@@ -14,6 +14,8 @@ import { api } from "~/utils/api";
 import Image from "next/image";
 import { CreatePostModal } from "../CreatePostModal/CreatePostModal";
 import { useUser } from "~/providers/AuthProvider";
+import { Button } from "../ui/button";
+import { supabase } from "~/shared/supabaseClient";
 
 export const Sidebar = () => {
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
@@ -58,7 +60,7 @@ export const Sidebar = () => {
   ];
   return (
     <>
-      <div className="fixed bottom-0 left-0 flex w-full bg-white md:top-0 md:w-[--sidebarMd]  md:border-r md:p-4 lg:w-[--sidebarLg]">
+      <div className="fixed bottom-0 left-0 flex w-full flex-col justify-between bg-white md:top-0 md:w-[--sidebarMd]  md:border-r md:p-4 lg:w-[--sidebarLg]">
         <div className="mx-auto flex w-full max-w-lg flex-row justify-between md:flex-col md:justify-normal">
           <InstagramLogo
             onClick={() => router.push("/")}
@@ -78,6 +80,14 @@ export const Sidebar = () => {
               onClick={element.onClick}
             />
           ))}
+        </div>
+        <div>
+          <Button
+            variant="outline"
+            onClick={() => void supabase().auth.signOut()}
+          >
+            Logout
+          </Button>
         </div>
       </div>
       <CreatePostModal

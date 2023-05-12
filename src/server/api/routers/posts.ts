@@ -195,6 +195,9 @@ export const postsRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const data = await ctx.prisma.posts.findMany({
         where: {
+          userId: {
+            not: ctx.user.id,
+          },
           profiles: {
             userFollowsUserFollowsFollowerIdToprofiles: {
               some: {
