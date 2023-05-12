@@ -19,6 +19,7 @@ const useAddPost = () => {
   const { user } = useUser();
   const mutateAsync = async (data: PostData) => {
     if (!data.imageToUpload) return;
+
     const id = crypto.randomUUID();
     const { url, error } = await uploadFileToStorage(
       user?.id || "",
@@ -42,7 +43,10 @@ type Props = {
 };
 
 const newPostValidationSchema = z.object({
-  imageToUpload: z.custom<File>().nullable(),
+  imageToUpload: z
+    .custom<File>()
+    .nullable()
+    .refine((x) => !!x), // check at runtime
   content: z.string().min(1, "Content is Required").max(280, "Too long"),
 });
 
@@ -77,12 +81,10 @@ export const CreatePostModal = ({ isOpen, handleClose }: Props) => {
     clear();
   };
   const onSubmit = async (data: PostData) => {
-    console.log(data);
     await mutateAsync(data);
     handleClose();
   };
   const fileUploaded = !!watch("imageToUpload");
-  console.log(formState.errors);
 
   if (!isOpen) return null;
   return (

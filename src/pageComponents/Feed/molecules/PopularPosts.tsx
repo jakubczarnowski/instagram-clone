@@ -17,7 +17,6 @@ export const PopularPosts = () => {
       }
     },
   });
-  console.log(data);
   return (
     <>
       <div className="flex h-full w-full flex-col items-center gap-4">
