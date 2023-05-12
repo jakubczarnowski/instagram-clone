@@ -15,7 +15,12 @@ import { useUser } from "~/providers/AuthProvider";
 type PostData = z.infer<typeof newPostValidationSchema>;
 
 const useAddPost = () => {
-  const { mutateAsync: updateProject } = api.posts.addPost.useMutation();
+  const utils = api.useContext();
+  const { mutateAsync: updateProject } = api.posts.addPost.useMutation({
+    onSuccess: () => {
+      void utils.invalidate();
+    },
+  });
   const { user } = useUser();
   const mutateAsync = async (data: PostData) => {
     if (!data.imageToUpload) return;

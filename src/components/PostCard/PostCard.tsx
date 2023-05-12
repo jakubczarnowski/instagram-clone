@@ -54,10 +54,9 @@ export const PostCard = ({
       <PostIcons postId={id} isLiked={isLiked} />
       <div className="flex flex-col gap-1">
         <h2 className="text-sm font-semibold">Likes amount: {likesAmount}</h2>
-        <div className="flex items-center gap-1">
-          <h2 className="text-sm font-semibold">{username}</h2>
-          <p className="text-sm">{title}</p>
-        </div>
+        <p className="text-sm">
+          <span className=" font-semibold">{username}</span> {title}
+        </p>
         <Link
           href={`/post/${id}`}
           className="cursor-pointer text-sm text-gray-500"
