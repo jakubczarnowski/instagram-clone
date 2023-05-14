@@ -9,7 +9,9 @@ export const Login = () => {
         <InstagramLogo height="50px" className="mb-3 mt-8" />
         <OAuthButtonGroup />
       </div>
-      <div className=""></div>
+      <div className="">
+        <p className="text-center text-slate-500"></p>
+      </div>
     </main>
   );
 };

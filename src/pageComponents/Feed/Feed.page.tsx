@@ -1,13 +1,6 @@
-"use client";
-import React, { useState } from "react";
-import { FollowersPosts } from "./molecules/FollowersPosts";
-import { PopularPosts } from "./molecules/PopularPosts";
+import React from "react";
+import { FeedContent } from "./molecules/FeedContent";
+
 export const Feed = () => {
-  const [showPopularPosts, setShowPopularPosts] = useState(false);
-  return (
-    <section className="flex h-full grow flex-col items-center justify-center pt-10">
-      <FollowersPosts onPostsEnd={() => setShowPopularPosts(true)} />
-      {showPopularPosts && <PopularPosts />}
-    </section>
-  );
+  return <FeedContent />;
 };

@@ -1,3 +1,4 @@
+"use client";
 import ReactModal from "react-modal";
 
 type ModalProps = ReactModal["props"];

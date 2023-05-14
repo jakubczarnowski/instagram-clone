@@ -1,6 +1,5 @@
-"use client";
 import React from "react";
-import { Post } from "~/components/Post/Post";
+import { PostContent } from "./molecules/PostContent";
 
 type Props = {
   params: {
@@ -9,9 +8,5 @@ type Props = {
 };
 
 export const PostPage = ({ params: { id } }: Props) => {
-  return (
-    <div className="flex flex-col p-10">
-      <Post className="border border-gray-100" id={id} />
-    </div>
-  );
+  return <PostContent id={id} />;
 };

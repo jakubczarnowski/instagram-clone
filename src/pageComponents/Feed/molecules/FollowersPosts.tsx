@@ -22,7 +22,6 @@ export const FollowersPosts = ({ onPostsEnd }: { onPostsEnd: () => void }) => {
     notifiedPostsEnded.current = true;
     onPostsEnd();
   }
-  console.log(hasNextPage);
   return (
     <>
       <div className="flex h-full w-full flex-col items-center gap-4">
