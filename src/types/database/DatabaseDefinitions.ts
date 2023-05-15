@@ -115,17 +115,14 @@ export interface Database {
       user_follows: {
         Row: {
           follower_id: string
-          id: number
           user_id: string
         }
         Insert: {
           follower_id: string
-          id?: number
           user_id: string
         }
         Update: {
           follower_id?: string
-          id?: number
           user_id?: string
         }
       }

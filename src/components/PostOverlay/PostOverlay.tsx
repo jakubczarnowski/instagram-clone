@@ -18,10 +18,16 @@ export const PostOverlay = ({
   id,
 }: Props) => {
   return (
-    <div className=" relative aspect-square w-full">
+    <div className="group relative aspect-square w-full">
+      <Image
+        src={imageUrl}
+        fill
+        alt="Post Image"
+        className="aspect-square object-fill"
+      />
       <Link
         href={`/post/${id}`}
-        className="invisible bottom-0 left-0 z-10 flex h-full w-full items-center justify-center bg-gray-800 bg-opacity-60 hover:visible"
+        className="invisible absolute bottom-0 left-0 flex h-full w-full items-center justify-center bg-gray-800 bg-opacity-60 group-hover:visible"
       >
         <div className="flex flex-row gap-4">
           <div className="flex flex-row items-center gap-1">
@@ -34,12 +40,6 @@ export const PostOverlay = ({
           </div>
         </div>
       </Link>
-      <Image
-        src={imageUrl}
-        fill
-        alt="Post Image"
-        className="aspect-square object-fill"
-      />
     </div>
   );
 };

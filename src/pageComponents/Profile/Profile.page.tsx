@@ -3,7 +3,6 @@ import React from "react";
 import { Avatar } from "~/components/Avatar/Avatar";
 import { Divider } from "~/components/Divider/Divider";
 import { FollowButton } from "~/components/FollowButton/FollowButton";
-import { PostCard } from "~/components/PostCard/PostCard";
 import { PostOverlay } from "~/components/PostOverlay/PostOverlay";
 import { useUser } from "~/providers/AuthProvider";
 import { api } from "~/utils";
@@ -18,7 +17,7 @@ export const Profile = (props: Props) => {
   const { data } = api.auth.getProfileById.useQuery({ id: props.params.id });
   const { user } = useUser();
   return (
-    <section className="flex h-full grow flex-col items-center justify-center pt-10">
+    <section className="flex h-full grow flex-col items-center pt-10">
       <div className="flex w-full max-w-3xl flex-col items-center justify-center">
         <div className="flex w-full flex-row items-center justify-center">
           <div className="relative mr-10 shrink-0 grow">
