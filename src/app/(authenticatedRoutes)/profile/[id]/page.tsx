@@ -10,4 +10,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     title: `${data?.username || ""} • Instagram`,
   };
 }
-export { Profile as default } from "~/pageComponents/Profile/Profile.page";
+import { Profile } from "~/pageComponents/Profile/Profile.page";
+
+const Page = ({ params }: { params: { id: string } }) => {
+  return <Profile params={params} />;
+};
+export default Page;

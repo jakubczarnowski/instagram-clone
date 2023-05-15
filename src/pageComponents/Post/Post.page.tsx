@@ -1,5 +1,5 @@
 import React from "react";
-import { PostContent } from "./molecules/PostContent";
+import { Post } from "~/components/Post/Post";
 
 type Props = {
   params: {
@@ -8,5 +8,9 @@ type Props = {
 };
 
 export const PostPage = ({ params: { id } }: Props) => {
-  return <PostContent id={id} />;
+  return (
+    <div className="flex flex-col p-10">
+      <Post className="border border-gray-100" id={id} />
+    </div>
+  );
 };

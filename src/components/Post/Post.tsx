@@ -8,6 +8,7 @@ import { PostIcons } from "../PostCard/organisms/PostIcons";
 import { LoadingScreen } from "../Spinner";
 import Image from "next/image";
 import { Comment } from "../Comment/Comment";
+import { Divider } from "../Divider/Divider";
 
 type Props = {
   id: string;
@@ -37,7 +38,7 @@ export const Post = ({ id, className }: Props) => {
             userId={data.profiles.id}
             username={data.profiles.username || ""}
           />
-          <hr className="my-2 border-b border-gray-100" />
+          <Divider className="mt-2" />
           <Comment
             className="mb-2"
             postId={id}
@@ -64,7 +65,7 @@ export const Post = ({ id, className }: Props) => {
           </div>
         </div>
         <div className="flex w-full flex-col gap-2">
-          <hr className="border-b border-gray-100" />
+          <Divider />
           <div className="flex flex-col gap-1">
             <PostIcons postId={id} isLiked={data.isLiked} />
             <h2 className="text-sm font-semibold">

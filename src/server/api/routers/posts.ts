@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 const POSTS_LIMIT = 5;
 
@@ -97,7 +101,7 @@ export const postsRouter = createTRPCRouter({
         },
       });
     }),
-  getPost: privateProcedure
+  getPost: publicProcedure
     .input(z.object({ postId: z.string() }))
     .query(async ({ ctx, input }) => {
       const data = await ctx.prisma.posts.findFirstOrThrow({
@@ -107,7 +111,7 @@ export const postsRouter = createTRPCRouter({
         include: {
           postLikes: {
             where: {
-              userId: ctx.user.id,
+              userId: ctx.user?.id || undefined,
             },
           },
           comments: {
@@ -115,7 +119,7 @@ export const postsRouter = createTRPCRouter({
               profiles: true,
               commentLikes: {
                 where: {
-                  userId: ctx.user.id,
+                  userId: ctx.user?.id || undefined,
                 },
               },
               _count: {
@@ -129,7 +133,7 @@ export const postsRouter = createTRPCRouter({
             include: {
               userFollowsUserFollowsFollowerIdToprofiles: {
                 where: {
-                  userId: ctx.user.id,
+                  userId: ctx.user?.id || undefined,
                 },
               },
             },

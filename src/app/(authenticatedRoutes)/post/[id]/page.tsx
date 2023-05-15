@@ -5,9 +5,9 @@ const prisma = new PrismaClient();
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const caller = appRouter.createCaller({ prisma: prisma, user: null });
-  const data = await caller.auth.getProfileById({ id: params.id });
+  const data = await caller.posts.getPost({ postId: params.id });
   return {
-    title: `${data?.username || ""} • Instagram`,
+    title: `${data.title} • Instagram`,
   };
 }
 
