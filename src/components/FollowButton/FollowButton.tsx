@@ -21,6 +21,7 @@ export const FollowButton = ({
         if (!data) return;
         return {
           ...data,
+          isFollowing: true,
           _count: {
             ...data._count,
             userFollowsUserFollowsUserIdToprofiles:
