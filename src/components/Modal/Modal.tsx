@@ -11,6 +11,7 @@ export const Modal = (props: ModalProps) => {
           height: "fit-content",
           padding: "0",
           margin: "auto auto",
+          width: "100%",
         },
       }}
       {...props}

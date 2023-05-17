@@ -20,13 +20,18 @@ export const Post = ({ id, className }: Props) => {
   if (error) return <p>There has been an error</p>;
   if (isLoading || !data) return <LoadingScreen />;
   return (
-    <div className={cn("flex w-full flex-col bg-white md:flex-row", className)}>
-      <div className="relative aspect-square h-auto w-full grow">
+    <div
+      className={cn(
+        "flex w-full flex-col justify-center bg-white md:flex-row",
+        className
+      )}
+    >
+      <div className="relative aspect-square w-full max-w-3xl">
         <Image
           fill
           alt="Image"
           src={data?.imageUrl || ""}
-          className="aspect-square object-fill"
+          className="aspect-square"
         />
       </div>
       <div className="flex min-w-fit max-w-full flex-col items-center justify-between p-3 sm:max-h-[600px] md:max-h-full md:max-w-[500px]">

@@ -4,8 +4,6 @@ import React from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { Avatar } from "~/components/Avatar/Avatar";
 import { FollowButton } from "~/components/FollowButton/FollowButton";
-import { useUser } from "~/providers/AuthProvider";
-import { api } from "~/utils/api";
 import { cn } from "~/utils/cn";
 
 type Props = {
